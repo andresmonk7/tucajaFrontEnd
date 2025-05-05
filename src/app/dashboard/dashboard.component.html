@@ -1,0 +1,27 @@
+<div class="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
+  <div class="bg-white p-8 rounded-lg shadow-xl text-center">
+    <h2 class="text-3xl font-bold text-gray-800 mb-4">
+      ¡Bienvenido/a {{ currentUser()?.userId || currentUser()?.email }}!
+      </h2>
+
+    <p class="text-gray-600 mb-6">
+      Este es tu Dashboard. Aquí podrás ver un resumen de tus finanzas.
+      (Contenido del MVP: Ingresos, Gastos, Flujo de Caja)
+    </p>
+
+    <button (click)="logout()"
+            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+      Cerrar Sesión
+    </button>
+
+     <div class="mt-8">
+        <h3 class="text-xl font-semibold mb-4">Navegación (Futuro MVP)</h3>
+        <ul class="list-disc list-inside text-left mx-auto max-w-xs">
+            <li><a href="#" class="text-blue-500 hover:underline">Registrar Ingreso</a></li>
+            <li><a href="#" class="text-blue-500 hover:underline">Registrar Gasto</a></li>
+            <li><a href="#" class="text-blue-500 hover:underline">Ver Flujo de Caja</a></li>
+            <li><a href="#" class="text-blue-500 hover:underline">Ver Facturas</a></li>
+        </ul>
+     </div>
+  </div>
+</div>

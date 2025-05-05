@@ -1,0 +1,117 @@
+<div class="flex justify-center items-center min-h-screen bg-gray-100 p-5">
+  <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-md">
+    <h2 class="text-2xl font-bold text-center mb-6 text-gray-800">Crear cuenta en TuCaja</h2>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+      <div class="flex flex-col md:flex-row gap-4 mb-4">
+        <div class="flex-1">
+          <label for="firstName" class="block text-gray-700 text-sm font-semibold mb-2">Nombre:</label>
+          <input type="text" id="firstName" formControlName="firstName"
+                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline
+                        "
+                [ngClass]="{'border-red-500': formControls['firstName'].invalid && (formControls['firstName'].touched || formControls['firstName'].dirty)}">
+          <p *ngIf="formControls['firstName'].invalid && (formControls['firstName'].touched || formControls['firstName'].dirty)" class="text-red-500 text-xs italic mt-1">
+            <span *ngIf="formControls['firstName'].errors?.['required']">El nombre es requerido.</span>
+          </p>
+        </div>
+
+        <div class="flex-1">
+          <label for="lastName" class="block text-gray-700 text-sm font-semibold mb-2">Apellido:</label>
+          <input type="text" id="lastName" formControlName="lastName"
+                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                 [ngClass]="{'border-red-500': formControls['lastName'].invalid && (formControls['lastName'].touched || formControls['lastName'].dirty)}">
+          <p *ngIf="formControls['lastName'].invalid && (formControls['lastName'].touched || formControls['lastName'].dirty)" class="text-red-500 text-xs italic mt-1">
+            <span *ngIf="formControls['lastName'].errors?.['required']">El apellido es requerido.</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label for="email" class="block text-gray-700 text-sm font-semibold mb-2">Email:</label>
+        <input type="email" id="email" formControlName="email"
+               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+               [ngClass]="{'border-red-500': formControls['email'].invalid && (formControls['email'].touched || formControls['email'].dirty)}">
+        <p *ngIf="formControls['email'].invalid && (formControls['email'].touched || formControls['email'].dirty)" class="text-red-500 text-xs italic mt-1">
+          <span *ngIf="formControls['email'].errors?.['required']">El email es requerido.</span>
+          <span *ngIf="formControls['email'].errors?.['email']">Formato de email inválido.</span>
+        </p>
+      </div>
+
+      <div class="mb-4">
+        <label for="password" class="block text-gray-700 text-sm font-semibold mb-2">Contraseña:</label>
+        <input type="password" id="password" formControlName="password"
+               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+               [ngClass]="{'border-red-500': formControls['password'].invalid && (formControls['password'].touched || formControls['password'].dirty)}">
+        <p *ngIf="formControls['password'].invalid && (formControls['password'].touched || formControls['password'].dirty)" class="text-red-500 text-xs italic mt-1">
+          <span *ngIf="formControls['password'].errors?.['required']">La contraseña es requerida.</span>
+          <span *ngIf="formControls['password'].errors?.['minlength']">Mínimo {{ formControls['password'].errors?.['minlength']?.requiredLength }} caracteres.</span>
+        </p>
+      </div>
+
+      <div class="mb-6">
+        <label for="confirmPassword" class="block text-gray-700 text-sm font-semibold mb-2">Confirmar Contraseña:</label>
+        <input type="password" id="confirmPassword" formControlName="confirmPassword"
+               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+               [ngClass]="{'border-red-500': formControls['confirmPassword'].invalid && (formControls['confirmPassword'].touched || formControls['confirmPassword'].dirty)}">
+         <p *ngIf="formControls['confirmPassword'].invalid && (formControls['confirmPassword'].touched || formControls['confirmPassword'].dirty)" class="text-red-500 text-xs italic mt-1">
+           <span *ngIf="formControls['confirmPassword'].errors?.['required']">La confirmación es requerida.</span>
+           <span *ngIf="formControls['confirmPassword'].errors?.['passwordMatch']">Las contraseñas no coinciden.</span>
+         </p>
+      </div>
+
+      <div class="mb-4">
+          <label for="userType" class="block text-gray-700 text-sm font-semibold mb-2">Tipo de Usuario:</label>
+          <select id="userType" formControlName="userType"
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                   [ngClass]="{'border-red-500': formControls['userType'].invalid && (formControls['userType'].touched || formControls['userType'].dirty)}">
+             <option value="">-- Selecciona --</option>
+             <option value="freelancer">Freelancer</option>
+             <option value="pyme">Pyme</option>
+             <option value="contador">Contador</option>
+          </select>
+           <p *ngIf="formControls['userType'].invalid && (formControls['userType'].touched || formControls['userType'].dirty)" class="text-red-500 text-xs italic mt-1">
+              <span *ngIf="formControls['userType'].errors?.['required']">El tipo de usuario es requerido.</span>
+           </p>
+       </div>
+
+       <div class="mb-4">
+          <label for="businessName" class="block text-gray-700 text-sm font-semibold mb-2">Nombre del Negocio/Empresa:</label>
+          <input type="text" id="businessName" formControlName="businessName"
+                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                 [ngClass]="{'border-red-500': formControls['businessName'].invalid && (formControls['businessName'].touched || formControls['businessName'].dirty)}">
+           <p *ngIf="formControls['businessName'].invalid && (formControls['businessName'].touched || formControls['businessName'].dirty)" class="text-red-500 text-xs italic mt-1">
+              <span *ngIf="formControls['businessName'].errors?.['required']">El nombre del negocio es requerido.</span>
+           </p>
+       </div>
+
+        <div class="mb-6">
+          <label for="nit" class="block text-gray-700 text-sm font-semibold mb-2">NIT:</label>
+          <input type="text" id="nit" formControlName="nit"
+                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                 [ngClass]="{'border-red-500': formControls['nit'].invalid && (formControls['nit'].touched || formControls['nit'].dirty)}">
+           <p *ngIf="formControls['nit'].invalid && (formControls['nit'].touched || formControls['nit'].dirty)" class="text-red-500 text-xs italic mt-1">
+              <span *ngIf="formControls['nit'].errors?.['required']">El NIT es requerido.</span>
+           </p>
+       </div>
+
+
+      <div *ngIf="authError()" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+        {{ authError() }}
+      </div>
+
+
+      <button type="submit" [disabled]="isLoading() || registerForm.invalid"
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full">
+        <span *ngIf="!isLoading()">Registrarse</span>
+        <span *ngIf="isLoading()">Registrando...</span>
+      </button>
+
+    </form>
+
+    <div class="text-center mt-4 text-gray-600 text-sm">
+      ¿Ya tienes cuenta? <a [routerLink]="['/login']" class="text-blue-500 hover:text-blue-800">Inicia sesión aquí</a>
+    </div>
+
+  </div>
+</div>
