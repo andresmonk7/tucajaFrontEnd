@@ -1,10 +1,11 @@
 
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms'; // Importa FormBuilder, FormGroup, Validators
 import { Router, RouterModule } from '@angular/router'; // Importa Router y RouterModule para el link al registro
 import { AuthService } from '../auth.service';
 import { LoginDto } from '../interfaces/auth.interface';
+import { environment } from '../../../environments/environment';
 
 
 @Component({
@@ -20,20 +21,23 @@ export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup; // Declaramos nuestro FormGroup
   // Exponemos las señales del AuthService para usarlas en la plantilla
-  authService = inject(AuthService);
+  // authService = inject(AuthService);
   logo = '/logo2.png'
 
   constructor(
     private fb: FormBuilder, // Inyectamos FormBuilder
-    // private authService: AuthService, // Inyectamos el AuthService
+    private authService: AuthService, // Inyectamos el AuthService
     private router: Router // Inyectamos Router
   ) {}
 
-  isLoading = this.authService.isLoading;
-  authError = this.authService.authError;
+  isLoading = signal(false);
+  authError =signal<string| null>(null);
 
   ngOnInit(): void {
     // Inicializamos el formulario en ngOnInit
+    this.isLoading.set(this.authService.isLoading());
+    this.authError.set(this.authService.authError());
+    console.log(this.isLoading());
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]], // Campo de email
       password_hash: ['', Validators.required], // Campo de contraseña
@@ -45,6 +49,11 @@ export class LoginComponent implements OnInit {
     return this.loginForm.controls;
   }
 
+  loginWithGoogle(): void {
+    // Redirige el navegador a la URL de inicio de Google OAuth en tu backend.
+    // El backend se encargará de redirigir a la página de login de Google.
+    window.location.href = `${environment.apiUrl}/auth/google`;
+  }
   // Método que se llama cuando se envía el formulario
   onSubmit(): void {
     // Si el formulario no es válido, no hacemos nada
@@ -61,7 +70,7 @@ export class LoginComponent implements OnInit {
       next: (response) => {
         // Si la respuesta es exitosa (AuthService ya guardó el token y actualizó señales)
         if (response) { // AuthService.login retorna null en caso de error
-            console.log('Login exitoso en componente');
+            console.log('Login exitoso en componente',response);
             // Redirigir al usuario a la página principal o dashboard después del login
             // (Necesitarás definir una ruta para el dashboard más adelante)
             this.router.navigate(['/dashboard']); // <-- Cambia '/dashboard' por tu ruta de dashboard

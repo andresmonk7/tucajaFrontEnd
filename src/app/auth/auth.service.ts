@@ -42,9 +42,10 @@ export class AuthService {
       // Aquí podrías añadir lógica para validar si el token no ha expirado
       // Por ahora, si existe, asumimos que el usuario está logueado
       try {
-         const payload = JSON.parse(atob(token.split('.')[1])); // Decodificar payload básico
+         const payload = JSON.parse(atob(token.split('.')[1]));
+         console.log('payload', payload)// Decodificar payload básico;
          // Puedes añadir validación de expiración: if (payload.exp * 1000 < Date.now()) { ... logout }
-         this._currentUser.set({ userId: payload.sub, email: payload.email }); // Establecer info del usuario
+         this._currentUser.set({ userId: payload.sub, email: payload.email, name:payload.name }); // Establecer info del usuario
          this._isLoggedIn.set(true); // Marcar como logueado
          console.log('Token encontrado y cargado.'); // Debugging
       } catch (e) {
@@ -93,7 +94,7 @@ export class AuthService {
         // Decodificar token para obtener info básica del usuario
         try {
            const payload = JSON.parse(atob(response.accessToken.split('.')[1]));
-           this._currentUser.set({ userId: payload.sub, email: payload.email }); // Establecer info del usuario
+           this._currentUser.set({ userId: payload.sub, email: payload.email, name:payload.name }); // Establecer info del usuario
            this._isLoggedIn.set(true); // Marcar como logueado
            console.log('Login exitoso, token guardado.'); // Debugging
         } catch (e) {
@@ -132,5 +133,26 @@ export class AuthService {
   // Método para obtener el token (útil para interceptores HTTP)
   getToken(): string | null {
     return localStorage.getItem('accessToken');
+  }
+
+
+  setTokenAndUserState(token: string): void {
+    if (token) {
+       localStorage.setItem('accessToken', token); // Guardar el token
+       try {
+          const payload = JSON.parse(atob(token.split('.')[1])); // Decodificar payload
+          this._currentUser.set({ userId: payload.sub, email: payload.email,name:payload.name }); // Actualizar info del usuario
+          this._isLoggedIn.set(true); // Marcar como logueado
+          this._authError.set(null); // Limpiar errores
+          console.log('AuthService: Token procesado, estado actualizado.'); // Debugging
+       } catch (e) {
+          console.error('AuthService: Error al decodificar o procesar token', e);
+          this.logout(); // Si falla, cerrar sesión
+          this._authError.set('Token de autenticación inválido.'); // Mensaje de error
+       }
+    } else {
+       // Si se llama con token nulo o vacío, cerrar sesión
+       this.logout();
+    }
   }
 }

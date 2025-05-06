@@ -27,6 +27,7 @@ export interface AuthResponse {
 export interface CurrentUser {
   userId: number; // O string/UUID dependiendo de tu DB
   email: string;
+  name:string;
   // ... otros claims del token si los añades
 }
 
