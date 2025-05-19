@@ -1,10 +1,14 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
+import { StatCardComponent } from "../../components/StatCard/StatCard.component";
+import { ChartSectionComponent } from "../../components/ChartSection/ChartSection.component";
+import { SidebarComponent } from "../../components/sidebar/sidebar.component";
+import { HeaderComponent } from '../../components/header/header.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [],
+  imports: [StatCardComponent, ChartSectionComponent, HeaderComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -16,7 +20,7 @@ export class DashboardComponent {
  currentUser = this.authService.currentUser;
 
  constructor(
-   private router: Router 
+   private router: Router
  ) {}
 
  // Método para cerrar sesión

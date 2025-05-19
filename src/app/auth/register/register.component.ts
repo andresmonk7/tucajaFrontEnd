@@ -80,7 +80,7 @@ export class RegisterComponent {
         if (response) { // AuthService.register retorna null en caso de error
             console.log('Registro exitoso en componente',response);
             // Redirigir al usuario a la página de login después de un registro exitoso
-            // this.router.navigate(['/login']);
+            this.router.navigate(['/login']);
 
         }
          // Si response es null, significa que AuthService ya manejó el error (authError signal)

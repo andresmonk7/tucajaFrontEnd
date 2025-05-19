@@ -1,2 +1,12 @@
+<ng-container *ngIf="isLoggedIn; else unauthenticatedTemplate">
+  <div class="flex h-screen bg-gray-100">
+    <app-sidebar></app-sidebar>
+    <main class="flex-1 p-6 overflow-y-auto">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</ng-container>
 
-<router-outlet />
+<ng-template #unauthenticatedTemplate>
+  <router-outlet></router-outlet>
+</ng-template>
